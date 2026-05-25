@@ -40,11 +40,9 @@
           <div class="{% unless forloop.last == true %}mr-3{% endunless %} mb-3">
             {% assign service_shortname = account[0] %}
             {% assign service = site.data.social_media[service_shortname] %}
-            {% if service_shortname == 'bilibili' %}
+           {% if service_shortname == 'bilibili' %}
   <a href="{{ account[1] }}" class="tooltipped tooltipped-se" aria-label="Bilibili: {{ account[1] }}" target="_blank">
-    <svg height="20" class="octicon v-align-middle" viewBox="0 0 24 24" width="20" fill="currentColor">
-      <path d="M17.813 4.653h.002c1.081 0 1.958.852 1.958 1.903v10.888c0 1.05-.877 1.902-1.958 1.902H6.187c-1.081 0-1.958-.852-1.958-1.902V6.556c0-1.05.877-1.903 1.958-1.903h.002l1.622-1.619a.91.91 0 1 1 1.284 1.29l-1.127 1.125h8.053l-1.127-1.125a.91.91 0 1 1 1.284-1.29l1.622 1.619zm-11.626 1.903v10.888h11.626V6.556H6.187zm3.179 3.018a1 1 0 0 1 1.002 1.001v2.5a1 1 0 1 1-2.004 0v-2.5a1 1 0 0 1 1.002-1.001zm5.267 0a1 1 0 0 1 1.003 1.001v2.5a1 1 0 1 1-2.005 0v-2.5a1 1 0 0 1 1.002-1.001z"/>
-    </svg>
+    <img src="/_includes/bilibili.ico" width="20" height="20" class="v-align-middle" alt="Bilibili Icon">
     <span class="d-none">Bilibili</span>
   </a>
 {% else %}
