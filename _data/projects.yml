@@ -1,0 +1,6 @@
+- name: personal-website
+  html_url: https://github.com/kequalxy/personal-website
+  description: My personal website — built with Jekyll and deployed on Cloudflare Pages
+  language: HTML
+  stargazers_count: 0
+  forks_count: 0

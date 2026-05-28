@@ -8,13 +8,7 @@
 
 {% assign posts_total = site.posts | size %}
 
-{% assign github_owner = site.github.owner %}
-{% if github_owner.login %}
-  {% assign user = github_owner %}
-{% else %}
-  {% assign user = site.author %}
-{% endif %}
-{% assign avatar_url = user.avatar_url | default: site.author.avatar_url %}
+{% assign user = site.author %}
 
 {% if page.path contains '_posts' %}
   {% assign page_title = page.title %}
@@ -33,7 +27,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#0a0a0f">
     <meta property="og:title" content="{{ user.name }}">
-    <meta property="og:image" content="{{ avatar_url }}">
+    <meta property="og:image" content="{{ user.avatar_url }}">
     <meta property="og:description" content="{{ meta_description }}">
     <meta property="og:type" content="website">
 
