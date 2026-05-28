@@ -1,0 +1,29 @@
+{% if topic.web_url %}
+  <a href="{{ topic.web_url }}" class="glass-card topic-card" style="text-decoration: none; color: inherit;">
+    {% if topic.image_url %}
+      <div class="topic-icon">
+        <img src="{{ topic.image_url }}" alt="{{ topic.name }}">
+      </div>
+    {% else %}
+      <div class="topic-icon">#</div>
+    {% endif %}
+    <span class="topic-name">{{ topic.name }}</span>
+    {% if topic.description %}
+      <span class="topic-desc">{{ topic.description }}</span>
+    {% endif %}
+  </a>
+{% else %}
+  <div class="glass-card topic-card">
+    {% if topic.image_url %}
+      <div class="topic-icon">
+        <img src="{{ topic.image_url }}" alt="{{ topic.name }}">
+      </div>
+    {% else %}
+      <div class="topic-icon">#</div>
+    {% endif %}
+    <span class="topic-name">{{ topic.name }}</span>
+    {% if topic.description %}
+      <span class="topic-desc">{{ topic.description }}</span>
+    {% endif %}
+  </div>
+{% endif %}
