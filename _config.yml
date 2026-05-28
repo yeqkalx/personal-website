@@ -10,10 +10,6 @@ author:
   avatar_url: https://github.com/kequalxy.png
   bio:
 
-plugins:
-  - jekyll-octicons
-  - jemoji
-
 permalink: /:year/:month/:day/:title/
 
 defaults:
