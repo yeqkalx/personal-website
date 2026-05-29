@@ -12,6 +12,8 @@
   --text-muted: #5c5c78;
   --accent: #6c8cff;
   --accent-dim: rgba(108, 140, 255, 0.15);
+  --selection-bg: rgba(108, 140, 255, 0.28);
+  --selection-text: #ffffff;
   --border: rgba(255, 255, 255, 0.06);
   --card-bg: rgba(255, 255, 255, 0.03);
   --card-hover: rgba(255, 255, 255, 0.06);
@@ -30,6 +32,8 @@
   --text-muted: #999;
   --accent: #3b5ccc;
   --accent-dim: rgba(59, 92, 204, 0.1);
+  --selection-bg: rgba(0, 0, 0, 0.08);
+  --selection-text: inherit;
   --border: rgba(0, 0, 0, 0.08);
   --card-bg: rgba(255, 255, 255, 0.7);
   --card-hover: rgba(255, 255, 255, 0.9);
@@ -105,6 +109,11 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-text);
 }
 
 body.theme-ready {
