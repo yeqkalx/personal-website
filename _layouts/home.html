@@ -15,22 +15,26 @@
     </div>
   </div>
 {% else %}
-  <div class="d-md-flex min-height-full">
-    <div class="flex-self-stretch col-md-5 col-lg-4 col-xl-3 px-4 px-md-6 px-lg-7 py-6">
+  <div class="home-split">
+    <aside class="home-sidebar">
       {% include masthead.html metadata=true %}
-    </div>
+    </aside>
 
-    <div class="col-md-7 col-lg-8 col-xl-9 px-4 py-6 px-lg-7">
-      <div class="mx-auto" style="max-width: 900px;">
+    <main class="home-main">
+      <div class="home-main-inner">
         {% unless content == "" %}
-          <div class="mb-6">{{ content }}</div>
+          <div class="section">{{ content }}</div>
         {% endunless %}
 
-        {% include projects.html %}
+        <div class="section reveal">
+          {% include projects.html %}
+        </div>
 
-        {% include interests.html %}
+        <div class="section reveal">
+          {% include interests.html %}
+        </div>
       </div>
-    </div>
+    </main>
   </div>
 {% endif %}
 

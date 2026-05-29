@@ -363,6 +363,61 @@ img {
 }
 
 /* ============================================================
+   Home Sidebar Layout
+   ============================================================ */
+.home-split {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.home-sidebar {
+  flex-shrink: 0;
+  width: 340px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  padding: 48px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-sidebar .masthead {
+  padding: 0;
+  text-align: center;
+}
+
+.home-main {
+  flex: 1;
+  background: var(--bg-primary);
+  padding: 48px 40px;
+  overflow-y: auto;
+}
+
+.home-main-inner {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .home-split {
+    flex-direction: column;
+  }
+
+  .home-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 32px 20px;
+  }
+
+  .home-main {
+    padding: 32px 20px;
+  }
+}
+
+/* ============================================================
    Sections
    ============================================================ */
 .section {

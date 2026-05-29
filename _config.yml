@@ -1,7 +1,7 @@
 url: https://xykong.xyz
 baseurl: ""
 
-layout: stacked
+layout: sidebar
 style: dark
 
 author:
