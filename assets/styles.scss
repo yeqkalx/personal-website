@@ -5,38 +5,38 @@
    CSS Variables
    ============================================================ */
 :root {
-  --bg-primary: #0a0a0f;
-  --bg-secondary: #111118;
-  --text-primary: #e4e4eb;
-  --text-secondary: #8888a0;
-  --text-muted: #5c5c78;
-  --accent: #6c8cff;
-  --accent-dim: rgba(108, 140, 255, 0.15);
-  --selection-bg: rgba(108, 140, 255, 0.28);
+  --bg-primary: #0f0f18;
+  --bg-secondary: #171724;
+  --text-primary: #e8e6e1;
+  --text-secondary: #8b8a92;
+  --text-muted: #5e5c68;
+  --accent: #d4a06c;
+  --accent-dim: rgba(212, 160, 108, 0.12);
+  --selection-bg: rgba(212, 160, 108, 0.25);
   --selection-text: #ffffff;
-  --border: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.07);
   --card-bg: rgba(255, 255, 255, 0.03);
   --card-hover: rgba(255, 255, 255, 0.06);
-  --radius: 12px;
+  --radius: 14px;
   --radius-sm: 8px;
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Light theme overrides */
 [data-theme="light"] {
-  --bg-primary: #f5f5f7;
+  --bg-primary: #fafaf6;
   --bg-secondary: #ffffff;
   --text-primary: #1d1d1f;
   --text-secondary: #6e6e73;
   --text-muted: #999;
-  --accent: #3b5ccc;
-  --accent-dim: rgba(59, 92, 204, 0.1);
+  --accent: #b07838;
+  --accent-dim: rgba(176, 120, 56, 0.1);
   --selection-bg: rgba(0, 0, 0, 0.08);
   --selection-text: inherit;
   --border: rgba(0, 0, 0, 0.08);
   --card-bg: rgba(255, 255, 255, 0.7);
-  --card-hover: rgba(255, 255, 255, 0.9);
+  --card-hover: rgba(255, 255, 255, 0.92);
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
@@ -85,7 +85,7 @@
 }
 
 [data-theme="light"] a:hover {
-  color: #2b47a0;
+  color: #8c5c2e;
 }
 
 /* ============================================================
@@ -102,7 +102,7 @@ html {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;
@@ -126,7 +126,7 @@ a {
   transition: color var(--transition);
 }
 a:hover {
-  color: #b8c8ff;
+  color: #e8c8a0;
 }
 
 img {
@@ -178,7 +178,7 @@ img {
 
 .theme-toggle:hover {
   background: var(--card-hover);
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(212, 160, 108, 0.35);
   transform: scale(1.08);
 }
 
@@ -255,9 +255,9 @@ img {
 
 .glass-card:hover {
   background: var(--card-hover);
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(212, 160, 108, 0.15);
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
 }
 
 /* ============================================================
@@ -284,18 +284,19 @@ img {
 
 .masthead h1 {
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.5px;
   margin-bottom: 8px;
-  color: #fff;
+  color: #f0ede6;
 }
 
 .masthead .bio {
   font-size: 1.05rem;
+  font-weight: 300;
   color: var(--text-secondary);
   max-width: 480px;
   margin: 0 auto 24px;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .masthead .meta-row {
@@ -318,7 +319,7 @@ img {
 }
 
 .masthead .meta-row a:hover {
-  color: #fff;
+  color: #f0ede6;
 }
 
 /* Social icons */
@@ -359,7 +360,7 @@ img {
 .social-links a svg circle,
 .social-links a svg rect[fill],
 .social-links a svg path[fill] {
-  fill: #8888a0;
+  fill: #8b8a92;
   transition: fill var(--transition);
 }
 
@@ -368,7 +369,7 @@ img {
 .social-links a:hover svg rect[fill],
 .social-links a:hover svg path[fill],
 .social-links a:hover svg g path[fill] {
-  fill: #fff;
+  fill: #d4a06c;
 }
 
 /* ============================================================
@@ -434,10 +435,10 @@ img {
 }
 
 .section-title {
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-size: 1.35rem;
+  font-weight: 500;
   margin-bottom: 8px;
-  color: #fff;
+  color: #f0ede6;
   letter-spacing: -0.3px;
 }
 
@@ -452,8 +453,16 @@ img {
    ============================================================ */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+/* Asymmetric: every 5th and 7th card spans 2 columns on wider screens */
+@media (min-width: 900px) {
+  .card-grid > :nth-child(5n+1),
+  .card-grid > :nth-child(5n+4) {
+    grid-column: span 2;
+  }
 }
 
 /* ============================================================
@@ -461,11 +470,11 @@ img {
    ============================================================ */
 .repo-card .repo-name {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 8px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .repo-card .repo-name a {
@@ -560,11 +569,12 @@ img {
   margin-bottom: 6px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-weight: 300;
 }
 
 .post-card .post-title {
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .post-card .post-title a {
@@ -819,7 +829,7 @@ img {
 .journal-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .journal-entry {
@@ -838,7 +848,7 @@ img {
 
 .journal-title {
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text-primary);
 }
 
