@@ -479,6 +479,39 @@ img {
 }
 
 /* ============================================================
+   Journal
+   ============================================================ */
+.journal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.journal-entry {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+}
+
+.journal-date {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+.journal-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.journal-entry:hover .journal-title {
+  color: var(--accent);
+}
+
+/* ============================================================
    Responsive
    ============================================================ */
 @media (max-width: 640px) {

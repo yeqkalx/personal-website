@@ -1,7 +1,15 @@
-<h2 class="section-title">My Interests</h2>
-<p class="section-desc">Topics that I want to learn more about.</p>
-<div class="card-grid">
-  {% for topic in site.topics %}
-    {% include topic-card.html %}
+<h2 class="section-title">Journal</h2>
+<p class="section-desc">个人日志</p>
+{% assign sorted_posts = site.posts | sort: "date" | reverse %}
+{% if sorted_posts.size > 0 %}
+<div class="journal-list">
+  {% for post in sorted_posts %}
+  <a href="{{ site.baseurl }}{{ post.url }}" class="glass-card journal-entry">
+    <div class="journal-date">{{ post.date | date: "%Y-%m-%d" }}</div>
+    <div class="journal-title">{{ post.title }}</div>
+  </a>
   {% endfor %}
 </div>
+{% else %}
+<p class="section-desc">暂无日志。</p>
+{% endif %}

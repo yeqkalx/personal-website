@@ -28,13 +28,3 @@ social_media:
   bilibili: https://space.bilibili.com/1306429853
   telegram: yeqkalxy
 
-topics:
-  - name: C
-    web_url: https://github.com/topics/c
-    image_url: https://en.wikipedia.org/wiki/C_(programming_language)#/media/File:C1stEdition.svg
-
-  - name: Web design
-
-  - name: Sass
-    web_url: https://github.com/topics/sass
-    image_url: https://raw.githubusercontent.com/github/explore/6c6508f34230f0ac0d49e847a326429eefbfc030/topics/sass/sass.png
