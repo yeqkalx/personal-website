@@ -21,6 +21,69 @@
   --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Light theme overrides */
+[data-theme="light"] {
+  --bg-primary: #f5f5f7;
+  --bg-secondary: #ffffff;
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --text-muted: #999;
+  --accent: #3b5ccc;
+  --accent-dim: rgba(59, 92, 204, 0.1);
+  --border: rgba(0, 0, 0, 0.08);
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-hover: rgba(255, 255, 255, 0.9);
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .masthead h1,
+[data-theme="light"] .section-title {
+  color: #1d1d1f;
+}
+
+[data-theme="light"] .masthead .bio {
+  color: #6e6e73;
+}
+
+[data-theme="light"] .masthead .meta-row a:hover,
+[data-theme="light"] .social-links a:hover {
+  color: #1d1d1f;
+}
+
+[data-theme="light"] .social-links a svg path,
+[data-theme="light"] .social-links a svg circle,
+[data-theme="light"] .social-links a svg rect[fill],
+[data-theme="light"] .social-links a svg path[fill] {
+  fill: #6e6e73;
+}
+
+[data-theme="light"] .social-links a:hover svg path,
+[data-theme="light"] .social-links a:hover svg circle,
+[data-theme="light"] .social-links a:hover svg rect[fill],
+[data-theme="light"] .social-links a:hover svg path[fill],
+[data-theme="light"] .social-links a:hover svg g path[fill] {
+  fill: #1d1d1f;
+}
+
+[data-theme="light"] .journal-date,
+[data-theme="light"] .topic-card .topic-desc,
+[data-theme="light"] .repo-card .repo-meta {
+  color: #999;
+}
+
+[data-theme="light"] .page-content code {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .page-content pre {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] a:hover {
+  color: #2b47a0;
+}
+
 /* ============================================================
    Reset & Base
    ============================================================ */
@@ -42,6 +105,10 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body.theme-ready {
+  transition: background 0.5s ease, color 0.3s ease;
 }
 
 a {
@@ -69,6 +136,83 @@ img {
   height: 100%;
   z-index: 0;
   pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+[data-theme="light"] #starfield {
+  opacity: 0.15;
+}
+
+/* ============================================================
+   Theme Toggle Button
+   ============================================================ */
+.theme-toggle {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 100;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.theme-toggle:hover {
+  background: var(--card-hover);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: scale(1.08);
+}
+
+.theme-toggle:active {
+  transform: scale(0.94);
+}
+
+.theme-toggle .icon-wrap {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+.theme-toggle .icon-wrap svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Sun: visible in dark mode (tap = switch to light) */
+.theme-toggle .sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.theme-toggle .moon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.6);
+}
+
+/* Flipped: moon visible in light mode */
+[data-theme="light"] .theme-toggle .sun {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.6);
+}
+
+[data-theme="light"] .theme-toggle .moon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
 }
 
 /* ============================================================
@@ -368,49 +512,150 @@ img {
 }
 
 /* ============================================================
-   Page content (post, etc.)
+   Post / Article page
    ============================================================ */
-.page-content {
-  padding: 40px 0;
+.post-card-full {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-align: left;
+  margin-top: 32px;
 }
 
-.page-content h1 {
+.post-title-main {
   font-size: 1.8rem;
   font-weight: 700;
   margin-bottom: 8px;
   letter-spacing: -0.5px;
+  color: var(--text-primary);
 }
 
-.page-content h2, .page-content h3 {
-  margin-top: 32px;
-  margin-bottom: 12px;
+.post-pub-date {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+.post-split {
+  display: flex;
+  min-height: 100vh;
+}
+
+.post-sidebar {
+  flex-shrink: 0;
+  width: 320px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  padding: 32px 24px;
+}
+
+.post-main {
+  flex: 1;
+  background: var(--bg-primary);
+  padding: 40px 32px;
+}
+
+.post-main-inner {
+  max-width: 780px;
+}
+
+/* Share box */
+.share-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.share-title {
+  font-size: 0.85rem;
   font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.page-content p {
-  margin-bottom: 16px;
+.share-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.share-list a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  transition: color var(--transition);
+}
+
+.share-list a:hover {
+  color: var(--accent);
+}
+
+.share-icon {
+  width: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.share-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.share-label {
+  display: none;
+}
+
+@media (min-width: 576px) {
+  .share-label {
+    display: inline;
+  }
+}
+
+/* Article content */
+.article {
   color: var(--text-secondary);
   line-height: 1.7;
 }
 
-.page-content blockquote {
+.article h2, .article h3 {
+  margin-top: 32px;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.article p {
+  margin-bottom: 16px;
+}
+
+.article blockquote {
   border-left: 3px solid var(--accent);
   padding-left: 16px;
   color: var(--text-muted);
   margin: 16px 0;
 }
 
-.page-content ul, .page-content ol {
+.article ul, .article ol {
   padding-left: 24px;
   margin-bottom: 16px;
-  color: var(--text-secondary);
 }
 
-.page-content li {
+.article li {
   margin-bottom: 6px;
 }
 
-.page-content code {
+.article code {
   background: rgba(255, 255, 255, 0.06);
   padding: 2px 6px;
   border-radius: 4px;
@@ -418,7 +663,11 @@ img {
   font-size: 0.85em;
 }
 
-.page-content pre {
+[data-theme="light"] .article code {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.article pre {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -427,13 +676,35 @@ img {
   margin-bottom: 16px;
 }
 
-.page-content pre code {
+[data-theme="light"] .article pre {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.article pre code {
   background: none;
   padding: 0;
 }
 
-.page-content .highlight {
+.article .highlight {
   margin-bottom: 16px;
+}
+
+/* Responsive post split */
+@media (max-width: 768px) {
+  .post-split {
+    flex-direction: column;
+  }
+
+  .post-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .post-card-full {
+    padding: 20px;
+  }
 }
 
 /* ============================================================
