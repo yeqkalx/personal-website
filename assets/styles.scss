@@ -92,6 +92,14 @@
   color: #8c5c2e;
 }
 
+[data-theme="light"] .home-sidebar {
+  background: rgba(255, 255, 255, 0.82);
+}
+
+[data-theme="light"] .home-main {
+  background: rgba(250, 250, 246, 0.78);
+}
+
 [data-theme="light"] .scroll-progress-bar {
   background: rgba(176, 120, 56, 0.5);
 }
@@ -490,13 +498,15 @@ img {
 .home-sidebar {
   flex-shrink: 0;
   width: 340px;
-  background: var(--bg-secondary);
+  background: rgba(23, 23, 36, 0.82);
   border-right: 1px solid var(--border);
   padding: 48px 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 /* Subtle gradient accent on sidebar */
@@ -518,9 +528,11 @@ img {
 
 .home-main {
   flex: 1;
-  background: var(--bg-primary);
+  background: rgba(15, 15, 24, 0.78);
   padding: 48px 40px;
   overflow-y: auto;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .home-main-inner {
@@ -774,15 +786,27 @@ img {
 .post-sidebar {
   flex-shrink: 0;
   width: 320px;
-  background: var(--bg-secondary);
+  background: rgba(23, 23, 36, 0.82);
   border-right: 1px solid var(--border);
   padding: 32px 24px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+[data-theme="light"] .post-sidebar {
+  background: rgba(255, 255, 255, 0.82);
 }
 
 .post-main {
   flex: 1;
-  background: var(--bg-primary);
+  background: rgba(15, 15, 24, 0.78);
   padding: 40px 32px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+[data-theme="light"] .post-main {
+  background: rgba(250, 250, 246, 0.78);
 }
 
 .post-main-inner {
