@@ -308,22 +308,19 @@ img {
    Glass Card
    ============================================================ */
 .glass-card {
-  background: var(--card-bg);
+  background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px 24px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   transition: transform 0.4s var(--ease-out-expo), background var(--transition), border-color var(--transition), box-shadow 0.4s var(--ease-out-expo);
   transform-style: preserve-3d;
   perspective: 1000px;
 }
 
 .glass-card:hover {
-  background: var(--card-hover);
-  border-color: rgba(212, 160, 108, 0.2);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(212, 160, 108, 0.08);
+  border-color: rgba(212, 160, 108, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Card tilt container — applied via JS */
@@ -490,7 +487,7 @@ img {
 .home-sidebar {
   flex-shrink: 0;
   width: 340px;
-  background: var(--bg-secondary);
+  background: var(--bg-primary);
   border-right: 1px solid var(--border);
   padding: 48px 32px;
   display: flex;
@@ -518,7 +515,7 @@ img {
 
 .home-main {
   flex: 1;
-  background: transparent;
+  background: var(--bg-primary);
   padding: 48px 40px;
   overflow-y: auto;
 }
@@ -774,14 +771,14 @@ img {
 .post-sidebar {
   flex-shrink: 0;
   width: 320px;
-  background: var(--bg-secondary);
+  background: var(--bg-primary);
   border-right: 1px solid var(--border);
   padding: 32px 24px;
 }
 
 .post-main {
   flex: 1;
-  background: transparent;
+  background: var(--bg-primary);
   padding: 40px 32px;
 }
 
