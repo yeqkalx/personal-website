@@ -117,38 +117,44 @@
     }
 
     function createParticles() {
-      const count = Math.min(Math.floor((w * h) / 10000), 120);
+      const count = Math.min(Math.floor((w * h) / 5000), 200);
       particles = [];
       for (let i = 0; i < count; i++) {
-        // Depth layers: small = far, large = near
         const depth = Math.random();
+        // 15% of stars are "bright anchors" — extra visible even at a glance
+        const isBright = Math.random() < 0.15;
+        const baseR = isBright ? (depth * 2.0 + 0.6) : (depth * 1.4 + 0.3);
+        const baseOpacity = isBright
+          ? Math.random() * 0.35 + 0.65   // 0.65–1.0
+          : Math.random() * 0.5 + 0.3;     // 0.3–0.8
         particles.push({
           x: Math.random() * w,
           y: Math.random() * h,
-          r: depth * 1.6 + 0.2,
-          vx: (Math.random() - 0.5) * 0.2,
-          vy: (Math.random() - 0.5) * 0.2,
-          opacity: Math.random() * 0.6 + 0.15,
-          twinkleSpeed: Math.random() * 0.008 + 0.002,
+          r: baseR,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: (Math.random() - 0.5) * 0.25,
+          opacity: baseOpacity,
+          twinkleSpeed: Math.random() * 0.006 + 0.0015,
           twinkleOffset: Math.random() * Math.PI * 2,
           depth: depth,
-          hue: Math.random() < 0.08 ? 30 + Math.random() * 20 : 38 + Math.random() * 12 // occasional warm star
+          hue: isBright ? 36 + Math.random() * 10 : 38 + Math.random() * 14,
+          bright: isBright
         });
       }
     }
 
     function spawnShootingStar() {
-      if (shootingStars.length >= 2) return; // limit concurrent shooting stars
+      if (shootingStars.length >= 3) return; // limit concurrent shooting stars
 
       const fromLeft = Math.random() > 0.5;
       const startX = fromLeft ? Math.random() * w * 0.3 : w * 0.7 + Math.random() * w * 0.3;
-      const startY = Math.random() * h * 0.5;
+      const startY = Math.random() * h * 0.6;
       const angle = fromLeft
         ? Math.PI / 4 + Math.random() * Math.PI / 8
         : Math.PI * 3 / 4 + Math.random() * Math.PI / 8;
 
-      const length = 80 + Math.random() * 120;
-      const speed = 6 + Math.random() * 8;
+      const length = 100 + Math.random() * 150;
+      const speed = 7 + Math.random() * 10;
 
       shootingStars.push({
         x: startX,
@@ -157,8 +163,8 @@
         length: length,
         speed: speed,
         life: 0,
-        maxLife: 60 + Math.random() * 40,
-        opacity: 0.6 + Math.random() * 0.4
+        maxLife: 50 + Math.random() * 50,
+        opacity: 0.7 + Math.random() * 0.3
       });
     }
 
@@ -178,16 +184,18 @@
         if (p.y < -10) p.y = h + 10;
         if (p.y > h + 10) p.y = -10;
 
-        // Twinkle
-        const twinkle = 0.5 + 0.5 * Math.sin(timestamp * p.twinkleSpeed + p.twinkleOffset);
-        const alpha = p.opacity * (0.55 + 0.45 * twinkle);
+        // Twinkle — bright stars twinkle less so they stay visible
+        const twinkle = p.bright
+          ? 0.7 + 0.3 * Math.sin(timestamp * p.twinkleSpeed + p.twinkleOffset)
+          : 0.5 + 0.5 * Math.sin(timestamp * p.twinkleSpeed + p.twinkleOffset);
+        const alpha = p.opacity * twinkle;
 
-        // Draw star with subtle glow
-        const glowRadius = p.r * 2.5;
+        // Draw star glow — larger and brighter
+        const glowRadius = p.bright ? p.r * 4 : p.r * 3;
         const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowRadius);
         const hue = p.hue;
-        glow.addColorStop(0, `hsla(${hue}, 30%, 82%, ${alpha})`);
-        glow.addColorStop(0.4, `hsla(${hue}, 25%, 78%, ${alpha * 0.3})`);
+        glow.addColorStop(0, `hsla(${hue}, 20%, 92%, ${alpha})`);
+        glow.addColorStop(0.3, `hsla(${hue}, 20%, 85%, ${alpha * 0.5})`);
         glow.addColorStop(1, 'transparent');
 
         ctx.beginPath();
@@ -195,24 +203,25 @@
         ctx.fillStyle = glow;
         ctx.fill();
 
-        // Core
+        // Core — bright white center for visible pop
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(220, 210, 190, ${alpha})`;
+        ctx.fillStyle = p.bright
+          ? `rgba(255, 248, 235, ${Math.min(1, alpha * 1.1)})`
+          : `rgba(235, 225, 210, ${alpha})`;
         ctx.fill();
       }
 
       // Draw constellation-like connections between nearby bright particles
-      ctx.strokeStyle = `rgba(210, 195, 170, 0.04)`;
-      ctx.lineWidth = 0.5;
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100 && particles[i].depth > 0.5 && particles[j].depth > 0.5) {
-            const alpha = (1 - dist / 100) * 0.15;
-            ctx.strokeStyle = `rgba(210, 195, 170, ${alpha})`;
+          if (dist < 120 && particles[i].bright && particles[j].bright) {
+            const alpha = (1 - dist / 120) * 0.12;
+            ctx.strokeStyle = `rgba(220, 205, 180, ${alpha})`;
+            ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -245,12 +254,13 @@
         const tailY = s.y - Math.sin(s.angle) * s.length;
 
         const gradient = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
-        gradient.addColorStop(0, `rgba(255, 240, 220, ${alpha})`);
-        gradient.addColorStop(0.3, `rgba(220, 200, 170, ${alpha * 0.6})`);
+        gradient.addColorStop(0, `rgba(255, 245, 225, ${alpha})`);
+        gradient.addColorStop(0.15, `rgba(240, 225, 195, ${alpha * 0.7})`);
+        gradient.addColorStop(0.5, `rgba(220, 200, 170, ${alpha * 0.25})`);
         gradient.addColorStop(1, 'rgba(220, 200, 170, 0)');
 
         ctx.strokeStyle = gradient;
-        ctx.lineWidth = 1.5;
+        ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(s.x, s.y);
         ctx.lineTo(tailX, tailY);
@@ -258,8 +268,8 @@
 
         // Bright head
         ctx.beginPath();
-        ctx.arc(s.x, s.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 245, 230, ${alpha})`;
+        ctx.arc(s.x, s.y, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 248, 235, ${alpha})`;
         ctx.fill();
 
         // Remove dead shooting stars
@@ -275,15 +285,15 @@
     createParticles();
     animationId = requestAnimationFrame(draw);
 
-    // Periodic shooting stars
+    // Periodic shooting stars — more frequent
     function scheduleShootingStar() {
-      const delay = 4000 + Math.random() * 12000;
+      const delay = 3000 + Math.random() * 9000;
       setTimeout(() => {
         spawnShootingStar();
         scheduleShootingStar();
       }, delay);
     }
-    setTimeout(() => scheduleShootingStar(), 3000 + Math.random() * 8000);
+    setTimeout(() => scheduleShootingStar(), 1500 + Math.random() * 5000);
 
     // Debounced resize
     let resizeTimeout;

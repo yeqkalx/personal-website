@@ -177,18 +177,20 @@ img {
   pointer-events: none;
   z-index: 0;
   background: radial-gradient(
-    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(212, 160, 108, 0.04),
-    transparent 40%
+    500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(212, 160, 108, 0.07),
+    rgba(212, 160, 108, 0.02) 30%,
+    transparent 50%
   );
   transition: opacity 0.4s ease;
 }
 
 [data-theme="light"] .cursor-glow {
   background: radial-gradient(
-    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(176, 120, 56, 0.06),
-    transparent 40%
+    500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(176, 120, 56, 0.09),
+    rgba(176, 120, 56, 0.03) 30%,
+    transparent 50%
   );
 }
 
