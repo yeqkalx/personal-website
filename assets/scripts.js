@@ -195,14 +195,17 @@
           : 0.5 + 0.5 * Math.sin(timestamp * p.twinkleSpeed + p.twinkleOffset);
         const alpha = p.opacity * twinkle;
 
-        // Draw star glow
-        const glowRadius = p.bright ? p.r * 4 : p.r * 3;
+        // Draw star glow — larger in light mode for visibility
+        const glowRadius = light
+          ? (p.bright ? p.r * 5 : p.r * 4)
+          : (p.bright ? p.r * 4 : p.r * 3);
         const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowRadius);
 
         if (light) {
-          // Light mode: dark warm particles for contrast
-          glow.addColorStop(0, `rgba(160, 110, 55, ${alpha * 0.8})`);
-          glow.addColorStop(0.3, `rgba(140, 95, 45, ${alpha * 0.4})`);
+          // Light mode: rich amber/bronze motes with strong contrast
+          glow.addColorStop(0, `rgba(140, 85, 25, ${alpha})`);
+          glow.addColorStop(0.25, `rgba(160, 105, 40, ${alpha * 0.5})`);
+          glow.addColorStop(0.6, `rgba(180, 130, 70, ${alpha * 0.12})`);
           glow.addColorStop(1, 'transparent');
         } else {
           // Dark mode: bright luminous particles
@@ -222,8 +225,8 @@
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         if (light) {
           ctx.fillStyle = p.bright
-            ? `rgba(120, 80, 35, ${Math.min(1, alpha * 0.9)})`
-            : `rgba(100, 70, 35, ${alpha * 0.7})`;
+            ? `rgba(100, 55, 15, ${Math.min(1, alpha)})`
+            : `rgba(120, 70, 25, ${alpha * 0.85})`;
         } else {
           ctx.fillStyle = p.bright
             ? `rgba(255, 248, 235, ${Math.min(1, alpha * 1.1)})`
@@ -239,9 +242,9 @@
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 120 && particles[i].bright && particles[j].bright) {
-            const alpha = (1 - dist / 120) * (light ? 0.18 : 0.12);
+            const alpha = (1 - dist / 120) * (light ? 0.25 : 0.12);
             ctx.strokeStyle = light
-              ? `rgba(150, 110, 60, ${alpha})`
+              ? `rgba(130, 75, 25, ${alpha})`
               : `rgba(220, 205, 180, ${alpha})`;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
@@ -277,10 +280,10 @@
 
         const gradient = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
         if (light) {
-          gradient.addColorStop(0, `rgba(180, 130, 70, ${alpha})`);
-          gradient.addColorStop(0.15, `rgba(160, 110, 55, ${alpha * 0.7})`);
-          gradient.addColorStop(0.5, `rgba(140, 95, 45, ${alpha * 0.25})`);
-          gradient.addColorStop(1, 'rgba(140, 95, 45, 0)');
+          gradient.addColorStop(0, `rgba(140, 80, 20, ${alpha})`);
+          gradient.addColorStop(0.15, `rgba(160, 100, 35, ${alpha * 0.7})`);
+          gradient.addColorStop(0.5, `rgba(170, 120, 55, ${alpha * 0.25})`);
+          gradient.addColorStop(1, 'rgba(170, 120, 55, 0)');
         } else {
           gradient.addColorStop(0, `rgba(255, 245, 225, ${alpha})`);
           gradient.addColorStop(0.15, `rgba(240, 225, 195, ${alpha * 0.7})`);
@@ -299,7 +302,7 @@
         ctx.beginPath();
         ctx.arc(s.x, s.y, 2.5, 0, Math.PI * 2);
         ctx.fillStyle = light
-          ? `rgba(200, 140, 75, ${alpha})`
+          ? `rgba(160, 90, 20, ${alpha})`
           : `rgba(255, 248, 235, ${alpha})`;
         ctx.fill();
 
