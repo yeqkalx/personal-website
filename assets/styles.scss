@@ -12,6 +12,7 @@
   --text-muted: #5e5c68;
   --accent: #d4a06c;
   --accent-dim: rgba(212, 160, 108, 0.12);
+  --accent-glow: rgba(212, 160, 108, 0.3);
   --selection-bg: rgba(212, 160, 108, 0.25);
   --selection-text: #ffffff;
   --border: rgba(255, 255, 255, 0.07);
@@ -21,6 +22,8 @@
   --radius-sm: 8px;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --spring: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Light theme overrides */
@@ -32,6 +35,7 @@
   --text-muted: #999;
   --accent: #b07838;
   --accent-dim: rgba(176, 120, 56, 0.1);
+  --accent-glow: rgba(176, 120, 56, 0.2);
   --selection-bg: rgba(0, 0, 0, 0.08);
   --selection-text: inherit;
   --border: rgba(0, 0, 0, 0.08);
@@ -88,6 +92,10 @@
   color: #8c5c2e;
 }
 
+[data-theme="light"] .scroll-progress-bar {
+  background: rgba(176, 120, 56, 0.5);
+}
+
 /* ============================================================
    Reset & Base
    ============================================================ */
@@ -109,6 +117,7 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 ::selection {
@@ -135,6 +144,55 @@ img {
 }
 
 /* ============================================================
+   Scroll Progress Bar
+   ============================================================ */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  z-index: 1000;
+  pointer-events: none;
+  background: transparent;
+}
+
+.scroll-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, transparent, var(--accent), #e8c8a0);
+  transition: width 0.1s linear;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ============================================================
+   Cursor Glow
+   ============================================================ */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(212, 160, 108, 0.04),
+    transparent 40%
+  );
+  transition: opacity 0.4s ease;
+}
+
+[data-theme="light"] .cursor-glow {
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(176, 120, 56, 0.06),
+    transparent 40%
+  );
+}
+
+/* ============================================================
    Starfield Canvas
    ============================================================ */
 #starfield {
@@ -149,7 +207,7 @@ img {
 }
 
 [data-theme="light"] #starfield {
-  opacity: 0.15;
+  opacity: 0.2;
 }
 
 /* ============================================================
@@ -171,7 +229,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s var(--spring), box-shadow 0.3s ease;
   outline: none;
   -webkit-tap-highlight-color: transparent;
 }
@@ -180,10 +238,12 @@ img {
   background: var(--card-hover);
   border-color: rgba(212, 160, 108, 0.35);
   transform: scale(1.08);
+  box-shadow: 0 0 20px rgba(212, 160, 108, 0.15);
 }
 
 .theme-toggle:active {
-  transform: scale(0.94);
+  transform: scale(0.92);
+  transition: transform 0.15s ease;
 }
 
 .theme-toggle .icon-wrap {
@@ -199,13 +259,14 @@ img {
   left: 0;
   width: 20px;
   height: 20px;
-  transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Sun: visible in dark mode (tap = switch to light) */
 .theme-toggle .sun {
   opacity: 1;
   transform: rotate(0deg) scale(1);
+  color: #d4a06c;
 }
 
 .theme-toggle .moon {
@@ -222,6 +283,7 @@ img {
 [data-theme="light"] .theme-toggle .moon {
   opacity: 1;
   transform: rotate(0deg) scale(1);
+  color: #b07838;
 }
 
 /* ============================================================
@@ -250,14 +312,21 @@ img {
   padding: 20px 24px;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
+  transition: transform 0.4s var(--ease-out-expo), background var(--transition), border-color var(--transition), box-shadow 0.4s var(--ease-out-expo);
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
 
 .glass-card:hover {
   background: var(--card-hover);
-  border-color: rgba(212, 160, 108, 0.15);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  border-color: rgba(212, 160, 108, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(212, 160, 108, 0.08);
+}
+
+/* Card tilt container — applied via JS */
+.glass-card.tilt-active {
+  transition: transform 0.1s ease-out, background var(--transition), border-color var(--transition), box-shadow 0.4s var(--ease-out-expo);
 }
 
 /* ============================================================
@@ -266,20 +335,29 @@ img {
 .masthead {
   text-align: center;
   padding: 60px 0 40px;
+  position: relative;
 }
 
+/* Avatar — subtle float animation */
 .masthead .avatar {
   width: 120px;
   height: 120px;
   border-radius: 50%;
   border: 3px solid rgba(255, 255, 255, 0.1);
   margin-bottom: 24px;
-  transition: border-color var(--transition), transform var(--transition);
+  transition: border-color 0.4s ease, transform 0.5s var(--spring), box-shadow 0.4s ease;
+  animation: avatar-float 6s ease-in-out infinite;
 }
 
 .masthead .avatar:hover {
   border-color: var(--accent);
-  transform: scale(1.05);
+  transform: scale(1.08);
+  box-shadow: 0 0 30px rgba(212, 160, 108, 0.25);
+}
+
+@keyframes avatar-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
 .masthead h1 {
@@ -288,6 +366,7 @@ img {
   letter-spacing: -0.5px;
   margin-bottom: 8px;
   color: #f0ede6;
+  animation: hero-fade-in 0.8s var(--ease-out-expo) 0.1s both;
 }
 
 .masthead .bio {
@@ -297,6 +376,7 @@ img {
   max-width: 480px;
   margin: 0 auto 24px;
   line-height: 1.6;
+  animation: hero-fade-in 0.8s var(--ease-out-expo) 0.25s both;
 }
 
 .masthead .meta-row {
@@ -308,6 +388,7 @@ img {
   margin-bottom: 24px;
   font-size: 0.95rem;
   color: var(--text-secondary);
+  animation: hero-fade-in 0.8s var(--ease-out-expo) 0.35s both;
 }
 
 .masthead .meta-row a {
@@ -315,11 +396,12 @@ img {
   align-items: center;
   gap: 6px;
   color: var(--text-secondary);
-  transition: color var(--transition);
+  transition: color var(--transition), transform 0.2s ease;
 }
 
 .masthead .meta-row a:hover {
   color: #f0ede6;
+  transform: translateY(-1px);
 }
 
 /* Social icons */
@@ -329,6 +411,7 @@ img {
   justify-content: center;
   gap: 16px;
   margin-top: 8px;
+  animation: hero-fade-in 0.8s var(--ease-out-expo) 0.45s both;
 }
 
 .social-links a {
@@ -340,20 +423,26 @@ img {
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: all var(--transition);
+  transition: all 0.35s var(--spring);
   opacity: 0.7;
 }
 
 .social-links a:hover {
   opacity: 1;
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
+  border-color: rgba(212, 160, 108, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .social-links a svg {
   width: 18px;
   height: 18px;
+  transition: transform 0.3s var(--spring);
+}
+
+.social-links a:hover svg {
+  transform: scale(1.1);
 }
 
 .social-links a svg path,
@@ -370,6 +459,20 @@ img {
 .social-links a:hover svg path[fill],
 .social-links a:hover svg g path[fill] {
   fill: #d4a06c;
+}
+
+/* ============================================================
+   Hero entrance keyframes
+   ============================================================ */
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ============================================================
@@ -391,6 +494,19 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+/* Subtle gradient accent on sidebar */
+.home-sidebar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), #e8c8a0, var(--accent), transparent);
+  opacity: 0.5;
 }
 
 .home-sidebar .masthead {
@@ -432,6 +548,7 @@ img {
    ============================================================ */
 .section {
   margin-bottom: 60px;
+  position: relative;
 }
 
 .section-title {
@@ -440,6 +557,25 @@ img {
   margin-bottom: 8px;
   color: #f0ede6;
   letter-spacing: -0.3px;
+  position: relative;
+  display: inline-block;
+}
+
+/* Section title accent underline */
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 1px;
+  transition: width 0.6s var(--ease-out-expo);
+}
+
+.section.reveal.visible .section-title::after {
+  width: 100%;
 }
 
 .section-desc {
@@ -479,6 +615,11 @@ img {
 
 .repo-card .repo-name a {
   color: var(--accent);
+  transition: color var(--transition);
+}
+
+.repo-card .repo-name a:hover {
+  color: #e8c8a0;
 }
 
 .repo-card .repo-desc {
@@ -504,10 +645,12 @@ img {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  transition: color var(--transition), transform 0.2s ease;
 }
 
 .repo-card .repo-meta a:hover {
   color: var(--text-primary);
+  transform: translateY(-1px);
 }
 
 .repo-language-dot {
@@ -515,6 +658,7 @@ img {
   height: 10px;
   border-radius: 50%;
   display: inline-block;
+  box-shadow: 0 0 6px currentColor;
 }
 
 /* ============================================================
@@ -540,6 +684,12 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.3s var(--spring), box-shadow 0.3s ease;
+}
+
+.topic-card:hover .topic-icon {
+  transform: scale(1.08);
+  box-shadow: 0 0 16px var(--accent-dim);
 }
 
 .topic-card .topic-icon img {
@@ -579,6 +729,7 @@ img {
 
 .post-card .post-title a {
   color: var(--text-primary);
+  transition: color var(--transition);
 }
 
 .post-card .post-title a:hover {
@@ -791,11 +942,12 @@ img {
   font-size: 0.9rem;
   color: var(--text-muted);
   margin-bottom: 24px;
-  transition: color var(--transition);
+  transition: color var(--transition), transform 0.2s ease;
 }
 
 .back-link:hover {
   color: var(--text-primary);
+  transform: translateX(-2px);
 }
 
 /* ============================================================
@@ -807,6 +959,8 @@ img {
   font-size: 0.82rem;
   color: var(--text-muted);
   opacity: 0.6;
+  position: relative;
+  z-index: 1;
 }
 
 /* ============================================================
@@ -814,11 +968,23 @@ img {
    ============================================================ */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(30px);
+  transition: opacity 0.7s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
 }
 
 .reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered card reveals */
+.card-grid .glass-card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s var(--ease-out-expo), transform 0.5s var(--ease-out-expo), background var(--transition), border-color var(--transition), box-shadow 0.4s var(--ease-out-expo);
+}
+
+.card-grid .glass-card.revealed {
   opacity: 1;
   transform: translateY(0);
 }
@@ -837,6 +1003,26 @@ img {
   align-items: center;
   gap: 16px;
   text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle left accent line on hover */
+.journal-entry::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  width: 2px;
+  height: 40%;
+  background: var(--accent);
+  border-radius: 1px;
+  transition: transform 0.3s var(--spring);
+}
+
+.journal-entry:hover::before {
+  transform: translateY(-50%) scaleY(1);
 }
 
 .journal-date {
@@ -850,10 +1036,12 @@ img {
   font-size: 1rem;
   font-weight: 400;
   color: var(--text-primary);
+  transition: color var(--transition), transform 0.2s ease;
 }
 
 .journal-entry:hover .journal-title {
   color: var(--accent);
+  transform: translateX(4px);
 }
 
 /* ============================================================
@@ -879,6 +1067,39 @@ img {
   .section {
     margin-bottom: 40px;
   }
+
+  .cursor-glow {
+    display: none;
+  }
+}
+
+/* ============================================================
+   Custom scrollbar (WebKit)
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
 }
 
 /* ============================================================
@@ -898,5 +1119,18 @@ img {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+
+  .card-grid .glass-card {
+    opacity: 1;
+    transform: none;
+  }
+
+  .cursor-glow {
+    display: none;
+  }
+
+  .masthead .avatar {
+    animation: none;
   }
 }
