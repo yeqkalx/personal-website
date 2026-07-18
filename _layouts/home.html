@@ -7,10 +7,6 @@
     {{ content }}
 
     <div class="section reveal">
-      {% include projects.html %}
-    </div>
-
-    <div class="section reveal">
       {% include interests.html %}
     </div>
   </div>
@@ -25,10 +21,6 @@
         {% unless content == "" %}
           <div class="section">{{ content }}</div>
         {% endunless %}
-
-        <div class="section reveal">
-          {% include projects.html %}
-        </div>
 
         <div class="section reveal">
           {% include interests.html %}
