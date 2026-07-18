@@ -168,8 +168,13 @@
       });
     }
 
+    function isLightMode() {
+      return document.documentElement.hasAttribute('data-theme');
+    }
+
     function draw(timestamp) {
       ctx.clearRect(0, 0, w, h);
+      const light = isLightMode();
 
       // Draw particles with parallax toward mouse
       for (const p of particles) {
@@ -190,25 +195,40 @@
           : 0.5 + 0.5 * Math.sin(timestamp * p.twinkleSpeed + p.twinkleOffset);
         const alpha = p.opacity * twinkle;
 
-        // Draw star glow — larger and brighter
+        // Draw star glow
         const glowRadius = p.bright ? p.r * 4 : p.r * 3;
         const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowRadius);
-        const hue = p.hue;
-        glow.addColorStop(0, `hsla(${hue}, 20%, 92%, ${alpha})`);
-        glow.addColorStop(0.3, `hsla(${hue}, 20%, 85%, ${alpha * 0.5})`);
-        glow.addColorStop(1, 'transparent');
+
+        if (light) {
+          // Light mode: dark warm particles for contrast
+          glow.addColorStop(0, `rgba(160, 110, 55, ${alpha * 0.8})`);
+          glow.addColorStop(0.3, `rgba(140, 95, 45, ${alpha * 0.4})`);
+          glow.addColorStop(1, 'transparent');
+        } else {
+          // Dark mode: bright luminous particles
+          const hue = p.hue;
+          glow.addColorStop(0, `hsla(${hue}, 20%, 92%, ${alpha})`);
+          glow.addColorStop(0.3, `hsla(${hue}, 20%, 85%, ${alpha * 0.5})`);
+          glow.addColorStop(1, 'transparent');
+        }
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, glowRadius, 0, Math.PI * 2);
         ctx.fillStyle = glow;
         ctx.fill();
 
-        // Core — bright white center for visible pop
+        // Core
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.bright
-          ? `rgba(255, 248, 235, ${Math.min(1, alpha * 1.1)})`
-          : `rgba(235, 225, 210, ${alpha})`;
+        if (light) {
+          ctx.fillStyle = p.bright
+            ? `rgba(120, 80, 35, ${Math.min(1, alpha * 0.9)})`
+            : `rgba(100, 70, 35, ${alpha * 0.7})`;
+        } else {
+          ctx.fillStyle = p.bright
+            ? `rgba(255, 248, 235, ${Math.min(1, alpha * 1.1)})`
+            : `rgba(235, 225, 210, ${alpha})`;
+        }
         ctx.fill();
       }
 
@@ -219,8 +239,10 @@
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 120 && particles[i].bright && particles[j].bright) {
-            const alpha = (1 - dist / 120) * 0.12;
-            ctx.strokeStyle = `rgba(220, 205, 180, ${alpha})`;
+            const alpha = (1 - dist / 120) * (light ? 0.18 : 0.12);
+            ctx.strokeStyle = light
+              ? `rgba(150, 110, 60, ${alpha})`
+              : `rgba(220, 205, 180, ${alpha})`;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
@@ -254,10 +276,17 @@
         const tailY = s.y - Math.sin(s.angle) * s.length;
 
         const gradient = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
-        gradient.addColorStop(0, `rgba(255, 245, 225, ${alpha})`);
-        gradient.addColorStop(0.15, `rgba(240, 225, 195, ${alpha * 0.7})`);
-        gradient.addColorStop(0.5, `rgba(220, 200, 170, ${alpha * 0.25})`);
-        gradient.addColorStop(1, 'rgba(220, 200, 170, 0)');
+        if (light) {
+          gradient.addColorStop(0, `rgba(180, 130, 70, ${alpha})`);
+          gradient.addColorStop(0.15, `rgba(160, 110, 55, ${alpha * 0.7})`);
+          gradient.addColorStop(0.5, `rgba(140, 95, 45, ${alpha * 0.25})`);
+          gradient.addColorStop(1, 'rgba(140, 95, 45, 0)');
+        } else {
+          gradient.addColorStop(0, `rgba(255, 245, 225, ${alpha})`);
+          gradient.addColorStop(0.15, `rgba(240, 225, 195, ${alpha * 0.7})`);
+          gradient.addColorStop(0.5, `rgba(220, 200, 170, ${alpha * 0.25})`);
+          gradient.addColorStop(1, 'rgba(220, 200, 170, 0)');
+        }
 
         ctx.strokeStyle = gradient;
         ctx.lineWidth = 2;
@@ -269,7 +298,9 @@
         // Bright head
         ctx.beginPath();
         ctx.arc(s.x, s.y, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 248, 235, ${alpha})`;
+        ctx.fillStyle = light
+          ? `rgba(200, 140, 75, ${alpha})`
+          : `rgba(255, 248, 235, ${alpha})`;
         ctx.fill();
 
         // Remove dead shooting stars
