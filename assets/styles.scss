@@ -28,22 +28,25 @@
 
 /* Light theme overrides */
 [data-theme="light"] {
-  --bg-primary: #fafaf6;
+  --bg-primary: #f5f4f0;
   --bg-secondary: #ffffff;
   --text-primary: #1d1d1f;
   --text-secondary: #6e6e73;
-  --text-muted: #999;
+  --text-muted: #8a8a8e;
   --accent: #b07838;
   --accent-dim: rgba(176, 120, 56, 0.1);
   --accent-glow: rgba(176, 120, 56, 0.2);
-  --selection-bg: rgba(0, 0, 0, 0.08);
-  --selection-text: inherit;
-  --border: rgba(0, 0, 0, 0.08);
+  --selection-bg: rgba(176, 120, 56, 0.18);
+  --selection-text: #5c3d1c;
+  --border: rgba(0, 0, 0, 0.1);
   --card-bg: rgba(255, 255, 255, 0.7);
   --card-hover: rgba(255, 255, 255, 0.92);
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
+/* ============================================================
+   Light Theme — Masthead & Typography
+   ============================================================ */
 [data-theme="light"] .masthead h1,
 [data-theme="light"] .section-title {
   color: #1d1d1f;
@@ -58,6 +61,22 @@
   color: #1d1d1f;
 }
 
+/* ============================================================
+   Light Theme — Social Icons
+   ============================================================ */
+[data-theme="light"] .social-links a {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+  opacity: 0.8;
+}
+
+[data-theme="light"] .social-links a:hover {
+  background: rgba(0, 0, 0, 0.07);
+  border-color: rgba(176, 120, 56, 0.35);
+  opacity: 1;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
 [data-theme="light"] .social-links a svg path,
 [data-theme="light"] .social-links a svg circle,
 [data-theme="light"] .social-links a svg rect[fill],
@@ -70,13 +89,39 @@
 [data-theme="light"] .social-links a:hover svg rect[fill],
 [data-theme="light"] .social-links a:hover svg path[fill],
 [data-theme="light"] .social-links a:hover svg g path[fill] {
-  fill: #1d1d1f;
+  fill: #b07838;
 }
 
+/* ============================================================
+   Light Theme — Cards (subtle shadow for depth)
+   ============================================================ */
+[data-theme="light"] .glass-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .glass-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.06);
+  border-color: rgba(176, 120, 56, 0.3);
+}
+
+/* ============================================================
+   Light Theme — Journal & Meta
+   ============================================================ */
 [data-theme="light"] .journal-date,
 [data-theme="light"] .topic-card .topic-desc,
 [data-theme="light"] .repo-card .repo-meta {
-  color: #999;
+  color: #8a8a8e;
+}
+
+[data-theme="light"] .journal-entry::before {
+  background: #b07838;
+}
+
+/* ============================================================
+   Light Theme — Links & Code
+   ============================================================ */
+[data-theme="light"] a:hover {
+  color: #8c5c2e;
 }
 
 [data-theme="light"] .page-content code {
@@ -88,12 +133,76 @@
   border-color: rgba(0, 0, 0, 0.1);
 }
 
-[data-theme="light"] a:hover {
-  color: #8c5c2e;
+/* ============================================================
+   Light Theme — Scroll Progress & Starfield & Cursor Glow
+   ============================================================ */
+[data-theme="light"] .scroll-progress-bar {
+  background: linear-gradient(90deg, transparent, #b07838, #c89050);
 }
 
-[data-theme="light"] .scroll-progress-bar {
-  background: rgba(176, 120, 56, 0.5);
+[data-theme="light"] #starfield {
+  opacity: 0.35;
+}
+
+[data-theme="light"] .cursor-glow {
+  background: radial-gradient(
+    500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(176, 120, 56, 0.12),
+    rgba(176, 120, 56, 0.04) 30%,
+    transparent 50%
+  );
+}
+
+/* ============================================================
+   Light Theme — Theme Toggle Button
+   ============================================================ */
+[data-theme="light"] .theme-toggle {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .theme-toggle:hover {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(176, 120, 56, 0.35);
+  box-shadow: 0 0 16px rgba(176, 120, 56, 0.1);
+}
+
+/* ============================================================
+   Light Theme — Sidebar Accent
+   ============================================================ */
+[data-theme="light"] .home-sidebar::after {
+  opacity: 0.4;
+}
+
+/* ============================================================
+   Light Theme — Scrollbar
+   ============================================================ */
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* ============================================================
+   Light Theme — Article Code
+   ============================================================ */
+[data-theme="light"] .article code {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .article pre {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================================
+   Light Theme — Topic Card Icon
+   ============================================================ */
+[data-theme="light"] .topic-card:hover .topic-icon {
+  box-shadow: 0 0 16px rgba(176, 120, 56, 0.15);
 }
 
 /* ============================================================
@@ -887,10 +996,6 @@ img {
   font-size: 0.85em;
 }
 
-[data-theme="light"] .article code {
-  background: rgba(0, 0, 0, 0.06);
-}
-
 .article pre {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--border);
@@ -898,11 +1003,6 @@ img {
   padding: 16px;
   overflow-x: auto;
   margin-bottom: 16px;
-}
-
-[data-theme="light"] .article pre {
-  background: rgba(0, 0, 0, 0.03);
-  border-color: rgba(0, 0, 0, 0.1);
 }
 
 .article pre code {
@@ -1091,14 +1191,6 @@ img {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
-}
-
-[data-theme="light"] ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-}
-
-[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.25);
 }
 
 /* ============================================================
