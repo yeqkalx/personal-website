@@ -6,6 +6,8 @@
 
     {{ content }}
 
+    {% include quotes.html %}
+
     <div class="section reveal">
       {% include interests.html %}
     </div>
@@ -21,6 +23,8 @@
         {% unless content == "" %}
           <div class="section">{{ content }}</div>
         {% endunless %}
+
+        {% include quotes.html %}
 
         <div class="section reveal">
           {% include interests.html %}

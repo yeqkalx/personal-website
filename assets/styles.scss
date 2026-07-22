@@ -1167,6 +1167,90 @@ img {
 }
 
 /* ============================================================
+   Quote Card
+   ============================================================ */
+.quote-card {
+  padding: 32px 36px 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Large decorative quotation mark */
+.quote-mark {
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  font-size: 7rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.12;
+  pointer-events: none;
+  font-family: 'Georgia', 'Noto Serif SC', serif;
+}
+
+.quote-text {
+  font-size: 1.15rem;
+  font-weight: 400;
+  line-height: 1.85;
+  color: var(--text-primary);
+  margin: 0 0 20px 0;
+  padding: 0;
+  border: none;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.01em;
+}
+
+.quote-attribution {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  position: relative;
+  z-index: 1;
+}
+
+.quote-author {
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.quote-sep {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.quote-work {
+  font-style: italic;
+}
+
+/* Light theme overrides */
+[data-theme="light"] .quote-card {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .quote-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-color: rgba(176, 120, 56, 0.4);
+}
+
+[data-theme="light"] .quote-mark {
+  color: #b07838;
+  opacity: 0.08;
+}
+
+[data-theme="light"] .quote-text {
+  color: #2d2d2f;
+}
+
+[data-theme="light"] .quote-author {
+  color: #8c5c2e;
+}
+
+/* ============================================================
    Responsive
    ============================================================ */
 @media (max-width: 640px) {

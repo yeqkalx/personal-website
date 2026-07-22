@@ -1,0 +1,16 @@
+<div class="section reveal">
+  <h2 class="section-title">哲思录</h2>
+  <p class="section-desc">偶得一语，照亮一刻</p>
+
+  {% assign quotes = site.data.quotes %}
+  {% assign quote = quotes | sample %}
+  <div class="glass-card quote-card">
+    <div class="quote-mark">「</div>
+    <blockquote class="quote-text">{{ quote.text }}</blockquote>
+    <div class="quote-attribution">
+      <span class="quote-author">{{ quote.author }}</span>
+      <span class="quote-sep">—</span>
+      <span class="quote-work">{{ quote.work }}</span>
+    </div>
+  </div>
+</div>
