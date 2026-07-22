@@ -17,7 +17,7 @@
 
     {% if total_shareable_services > 0 %}
       <div class="share-box">
-        <h3 class="share-title">Share</h3>
+        <div class="share-title">Share</div>
         <ul class="share-list">
           {% for service in shareable_social_media %}
             <li>
@@ -35,31 +35,17 @@
   </div>
 {% endcapture %}
 
-{% if site.layout == 'stacked' %}
-  <div class="container post-container">
-    {% include masthead.html metadata=false %}
+<div class="container post-header">
+  <a href="{{ site.url }}{{ site.baseurl | append:'/' }}" class="back-link">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M10.78 12.78a.75.75 0 01-1.06 0L4.44 7.5a.75.75 0 010-1.06l5.28-5.28a.75.75 0 011.06 1.06L5.81 7l4.97 4.97a.75.75 0 010 1.06z"/></svg>
+    Home
+  </a>
+  <h1 class="post-title-main">{{ page.title }}</h1>
+  <p class="post-meta">Published {{ page.date | date: "%B %d, %Y" }}</p>
+</div>
 
-    <div class="post-card-full">
-      <p class="back-link"><a href="/">&larr; Home</a></p>
-      <h1 class="post-title-main">{{ page.title }}</h1>
-      <p class="post-pub-date">Published {{ page.date | date: "%b %d, %Y"}}</p>
-      {{ post_body }}
-    </div>
-  </div>
-{% else %}
-  <div class="post-split">
-    <div class="post-sidebar">
-      {% include masthead.html metadata=true %}
-    </div>
-    <div class="post-main">
-      <div class="post-main-inner">
-        <p class="back-link"><a href="{{ site.url }}{{ site.baseurl | append:'/' }}">&larr; Home</a></p>
-        <h1 class="post-title-main">{{ page.title }}</h1>
-        <p class="post-pub-date">Published {{ page.date | date: "%b %d, %Y"}}</p>
-        {{ post_body }}
-      </div>
-    </div>
-  </div>
-{% endif %}
+<div class="container">
+  {{ post_body }}
+</div>
 
 {% include footer.html %}

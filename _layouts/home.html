@@ -1,37 +1,15 @@
 {% include header.html %}
 
-{% if site.layout == 'stacked' %}
-  <div class="container">
-    {% include masthead.html metadata=true %}
+<div class="container">
+  {% include masthead.html metadata=true %}
 
-    {{ content }}
+  {{ content }}
 
-    {% include quotes.html %}
+  {% include quotes.html %}
 
-    <div class="section reveal">
-      {% include interests.html %}
-    </div>
+  <div class="section reveal">
+    {% include interests.html %}
   </div>
-{% else %}
-  <div class="home-split">
-    <aside class="home-sidebar">
-      {% include masthead.html metadata=true %}
-    </aside>
-
-    <main class="home-main">
-      <div class="home-main-inner">
-        {% unless content == "" %}
-          <div class="section">{{ content }}</div>
-        {% endunless %}
-
-        {% include quotes.html %}
-
-        <div class="section reveal">
-          {% include interests.html %}
-        </div>
-      </div>
-    </main>
-  </div>
-{% endif %}
+</div>
 
 {% include footer.html %}

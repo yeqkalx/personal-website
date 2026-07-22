@@ -1,14 +1,14 @@
 url: https://xykong.xyz
 baseurl: ""
 
-layout: sidebar
+layout: stacked
 style: dark
 
 author:
   login: yeqkalx
   name: yeqkalx
   avatar_url: https://github.com/yeqkalx.png
-  bio:
+  bio: Developer & Thinker
 
 permalink: /:year/:month/:day/:title/
 
